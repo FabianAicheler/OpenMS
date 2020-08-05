@@ -2326,6 +2326,13 @@ namespace OpenMS
       bool is_option = (arg.size() >= 2) && (arg[0] == '-') && (isalpha(arg[1]) || ((arg[1] == '-') && (arg.size() >= 3) &&  isalpha(arg[2])));
       if (is_option) // process content of the queue
       {
+        //replace '-' with '_' for non-trivial parameters to treat them as identical
+        if ((arg != "--help") && (arg != "--helphelp"))
+        {
+          arg.substitute('-','_');
+          //if arg is an option it nevertheless has arg[0] == '-'
+          arg[0] = '-';
+        }
         ParamMap::iterator pos = param_map.find(arg);
         if (pos != param_map.end()) // parameter is defined
         {
